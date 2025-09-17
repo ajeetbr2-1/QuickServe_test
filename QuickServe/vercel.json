@@ -3,9 +3,18 @@
   "name": "quickserve-static",
   "cleanUrls": true,
   "trailingSlash": false,
-  "routes": [
-    { "src": "/config.js", "headers": { "Cache-Control": "no-cache" } }
+  "headers": [
+    {
+      "source": "/config.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        }
+      ]
+    }
   ],
-  "github": { "enabled": true }
+  "github": {
+    "enabled": true
+  }
 }
-
