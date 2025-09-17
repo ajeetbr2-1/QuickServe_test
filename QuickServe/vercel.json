@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "name": "quickserve-static",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": [
+    { "src": "/config.js", "headers": { "Cache-Control": "no-cache" } }
+  ],
+  "github": { "enabled": true }
+}
+
