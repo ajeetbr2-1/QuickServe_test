@@ -1,0 +1,52 @@
+{
+  "name": "quickserve-marketplace",
+  "version": "2.0.0",
+  "description": "India's next-generation local service marketplace connecting consumers with verified service providers",
+  "main": "index.html",
+  "type": "module",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "vite",
+    "build": "vite build",
+    "postbuild": "node scripts/postbuild.cjs",
+    "preview": "vite preview",
+    "serve": "npx serve -s . -l 8000",
+    "test": "echo \"Open browser console and test features manually\"",
+    "deploy": "npm run build && echo \"Deploy dist/ folder to your hosting platform\""
+  },
+  "devDependencies": {
+    "vite": "^4.4.0",
+    "@vitejs/plugin-html": "^3.2.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0"
+  },
+  "dependencies": {
+    "font-awesome": "^4.7.0"
+  },
+  "keywords": [
+    "marketplace",
+    "local-services",
+    "india",
+    "service-providers",
+    "booking-platform",
+    "glassmorphism",
+    "responsive-design",
+    "chat-system",
+    "real-time-messaging",
+    "vite",
+    "vanilla-js"
+  ],
+  "author": "Ajeet Kumar",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ajeetbr2-1/QuickServe_test.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ajeetbr2-1/QuickServe_test/issues"
+  },
+  "homepage": "https://github.com/ajeetbr2-1/QuickServe_test#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
