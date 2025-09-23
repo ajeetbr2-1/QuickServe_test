@@ -13,7 +13,7 @@
     "location": "Delhi",
     "isEmergency": true,
     "availability": "24/7",
-    "image": "/images/services/plumbing.jpg"
+  "image": "/services/plumbing.jpg"
   },
   {
     "id": 2,
@@ -29,7 +29,7 @@
     "location": "Mumbai",
     "isEmergency": false,
     "availability": "9 AM - 6 PM",
-    "image": "/images/services/cleaning.jpg"
+  "image": "/services/cleaning.jpg"
   },
   {
     "id": 3,
@@ -45,7 +45,7 @@
     "location": "Bangalore",
     "isEmergency": false,
     "availability": "4 PM - 9 PM",
-    "image": "/images/services/tutoring.jpg"
+  "image": "/services/tutoring.jpg"
   },
   {
     "id": 4,
@@ -61,7 +61,7 @@
     "location": "Pune",
     "isEmergency": false,
     "availability": "6 AM - 8 AM, 6 PM - 8 PM",
-    "image": "/images/services/fitness.jpg"
+  "image": "/services/fitness.jpg"
   },
   {
     "id": 5,
@@ -77,7 +77,7 @@
     "location": "Hyderabad",
     "isEmergency": false,
     "availability": "10 AM - 7 PM",
-    "image": "/images/services/beauty.jpg"
+  "image": "/services/beauty.jpg"
   },
   {
     "id": 6,
@@ -93,7 +93,7 @@
     "location": "Chennai",
     "isEmergency": false,
     "availability": "9 AM - 9 PM",
-    "image": "/images/services/events.jpg"
+  "image": "/services/events.jpg"
   },
   {
     "id": 7,
@@ -109,7 +109,7 @@
     "location": "Kolkata",
     "isEmergency": false,
     "availability": "7 AM - 12 PM",
-    "image": "/images/services/gardening.jpg"
+  "image": "/services/gardening.jpg"
   },
   {
     "id": 8,
@@ -125,7 +125,7 @@
     "location": "Delhi",
     "isEmergency": false,
     "availability": "10 AM - 8 PM",
-    "image": "/images/services/photography.jpg"
+  "image": "/services/photography.jpg"
   },
   {
     "id": 9,
@@ -141,7 +141,7 @@
     "location": "Mumbai",
     "isEmergency": true,
     "availability": "24/7",
-    "image": "/images/services/mobile-repair.jpg"
+  "image": "/services/mobile-repair.jpg"
   },
   {
     "id": 10,
@@ -157,7 +157,7 @@
     "location": "Bangalore",
     "isEmergency": true,
     "availability": "24/7",
-    "image": "/images/services/electrical.jpg"
+  "image": "/services/electrical.jpg"
   },
   {
     "id": 11,
@@ -173,7 +173,7 @@
     "location": "Pune",
     "isEmergency": false,
     "availability": "8 AM - 5 PM",
-    "image": "/images/services/bathroom-cleaning.jpg"
+  "image": "/services/bathroom-cleaning.jpg"
   },
   {
     "id": 12,
@@ -189,7 +189,7 @@
     "location": "Hyderabad",
     "isEmergency": false,
     "availability": "5 PM - 9 PM",
-    "image": "/images/services/english-tutoring.jpg"
+  "image": "/services/english-tutoring.jpg"
   },
   {
     "id": 13,
@@ -205,7 +205,7 @@
     "location": "Chennai",
     "isEmergency": false,
     "availability": "6 AM - 9 AM, 6 PM - 8 PM",
-    "image": "/images/services/yoga.jpg"
+  "image": "/services/yoga.jpg"
   },
   {
     "id": 14,
@@ -221,7 +221,7 @@
     "location": "Kolkata",
     "isEmergency": false,
     "availability": "9 AM - 6 PM",
-    "image": "/images/services/pest-control.jpg"
+  "image": "/services/pest-control.jpg"
   },
   {
     "id": 15,
@@ -237,6 +237,6 @@
     "location": "Delhi",
     "isEmergency": false,
     "availability": "By Appointment",
-    "image": "/images/services/bridal-makeup.jpg"
+  "image": "/services/bridal-makeup.jpg"
   }
 ]

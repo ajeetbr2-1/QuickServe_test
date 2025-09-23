@@ -30,14 +30,14 @@ export default defineConfig({
         cors: true
     },
     // Asset handling
-    publicDir: 'assets',
+    publicDir: 'public',
     // CSS configuration
     css: {
         postcss: './postcss.config.js'
     },
     // Optimizations
     optimizeDeps: {
-        include: ['font-awesome']
+        include: []
     },
     // Plugin configuration
     plugins: [],

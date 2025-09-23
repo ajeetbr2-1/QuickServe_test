@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="assets/css/glassmorphism.css">
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/basic-app.css">
+    <link rel="stylesheet" href="assets/css/services.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Fonts -->
@@ -178,6 +179,18 @@
                             <span>Transparent Pricing</span>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="servicesView" class="view section">
+            <div class="container">
+                <h2 class="section-title">Popular Services</h2>
+                <p class="section-subtitle">Discover trusted services tailored for your needs</p>
+                
+                <div class="services-grid">
+                    <!-- Services will be loaded dynamically here -->
                 </div>
             </div>
         </section>
@@ -458,8 +471,10 @@
     <script src="js/services/api.service.js"></script>
     <!-- Supabase integration layer (loads if configured) -->
     <script src="js/services/supabase.service.js"></script>
+    <!-- Quick loading screen fix -->
+    <script src="js/loader-fix.js"></script>
     <!-- Main app -->
-    <script src="js/app.js"></script>
+    <script type="module" src="js/app.js"></script>
 </body>
 
 </html>
