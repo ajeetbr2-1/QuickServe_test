@@ -40,7 +40,7 @@ class QuickServeApp {
 
     async loadServices() {
         try {
-            const response = await fetch('./public/services.json');
+            const response = await fetch('./services.json');
             this.services = await response.json();
         } catch (error) {
             console.error('Failed to load services:', error);
@@ -81,10 +81,7 @@ class QuickServeApp {
     showView(viewName) {
         // Hide all views
         document.querySelectorAll('.view').forEach(view => {
-            view.style.display = 'none';
-        });
-
-        // Update active navigation
+                // Update active navigation
         document.querySelectorAll('.category-link').forEach(link => {
             link.classList.remove('active');
         });
@@ -119,6 +116,8 @@ class QuickServeApp {
             console.log('Loading screen hidden by app.js at', new Date().toISOString());
         } else {
             console.warn('Loading screen element not found when trying to hide');
+        }
+    }         console.log('Loading screen hidden by app.js');
         }
     }
 

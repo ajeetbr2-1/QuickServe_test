@@ -1,10 +1,11 @@
-// Simple direct script to immediately hide the loading screen
+// Backup loader fix - only hide if main app fails to hide loading screen
 document.addEventListener('DOMContentLoaded', function() {
-    // Quick fix for the loading screen
+    // Set a longer timeout as a failsafe in case the main app fails
     setTimeout(function() {
         var loadingScreen = document.getElementById('loadingScreen');
-        if (loadingScreen) {
+        if (loadingScreen && loadingScreen.style.display !== 'none') {
+            console.warn('Loading screen failsafe activated - hiding loading screen');
             loadingScreen.style.display = 'none';
         }
-    }, 1500); // Hide after 1.5 seconds
+    }, 5000); // Hide after 5 seconds as failsafe only
 });
