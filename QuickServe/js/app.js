@@ -41,7 +41,7 @@ class QuickServeApp {
 
     async loadServices() {
         try {
-            const response = await fetch('./services.json');
+            const response = await fetch('./public/services.json');
             this.services = await response.json();
         } catch (error) {
             console.error('Failed to load services:', error);
@@ -77,9 +77,30 @@ class QuickServeApp {
         if (searchInput) {
             searchInput.addEventListener('input', this.handleSearch.bind(this));
         }
+
+        // Add beforeunload handler to prevent data loss
+        window.addEventListener('beforeunload', (e) => {
+            // Clean up all views before unloading
+            this.cleanupAllViews();
+            
+            // If there's unsaved data, warn the user
+            if (this.hasUnsavedChanges()) {
+                e.preventDefault();
+                e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+                return 'You have unsaved changes. Are you sure you want to leave?';
+            }
+        });
+
+        // Add unload handler for final cleanup
+        window.addEventListener('unload', () => {
+            this.cleanupAllViews();
+        });
     }
 
     showView(viewName) {
+        // Clean up current view before switching
+        this.cleanupCurrentView();
+        
         // Hide all views
         document.querySelectorAll('.view').forEach(view => {
             view.style.display = 'none';
@@ -103,6 +124,39 @@ class QuickServeApp {
         }
 
         this.currentView = viewName;
+        
+        // Re-initialize the new view to ensure proper event binding
+        this.reinitializeCurrentView();
+    }
+
+    cleanupCurrentView() {
+        // Clean up the current view's event listeners
+        switch(this.currentView) {
+            case 'home':
+                if (homeView.cleanup) homeView.cleanup();
+                break;
+            case 'providers':
+                if (providersView.cleanup) providersView.cleanup();
+                break;
+            case 'bookings':
+                if (bookingView.cleanup) bookingView.cleanup();
+                break;
+        }
+    }
+
+    reinitializeCurrentView() {
+        // Re-initialize the current view
+        switch(this.currentView) {
+            case 'home':
+                homeView.init(this.services);
+                break;
+            case 'providers':
+                providersView.init(this.providers);
+                break;
+            case 'bookings':
+                bookingView.init();
+                break;
+        }
     }
 
     showLoading() {
@@ -134,6 +188,41 @@ class QuickServeApp {
         const query = event.target.value.toLowerCase();
         // Implement search functionality
         console.log('Searching for:', query);
+    }
+
+    cleanupAllViews() {
+        // Clean up all view event listeners
+        if (typeof homeView !== 'undefined' && homeView.cleanup) {
+            homeView.cleanup();
+        }
+        if (typeof providersView !== 'undefined' && providersView.cleanup) {
+            providersView.cleanup();
+        }
+        if (typeof bookingView !== 'undefined' && bookingView.cleanup) {
+            bookingView.cleanup();
+        }
+        console.log('All views cleaned up');
+    }
+
+    hasUnsavedChanges() {
+        // Check if there are any unsaved changes in the application
+        // This could include form data, cart items, etc.
+        const cartItems = document.querySelectorAll('.cart-items .cart-item');
+        const formInputs = document.querySelectorAll('input[type="text"], textarea');
+        
+        // Check if cart has items
+        if (cartItems.length > 0) {
+            return true;
+        }
+        
+        // Check if any forms have been modified
+        for (let input of formInputs) {
+            if (input.value.trim() !== '' && input.value !== input.defaultValue) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 }
 

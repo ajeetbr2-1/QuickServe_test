@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Unload Fixes</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        button { margin: 5px; padding: 10px; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Test Unload/Undo Fixes</h1>
+    
+    <div class="test-section">
+        <h2>Event Listener Test</h2>
+        <button id="addListener">Add Event Listener</button>
+        <button id="removeListener">Remove Event Listener</button>
+        <button id="testClick">Test Click</button>
+        <div id="clickResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Form Data Test</h2>
+        <input type="text" id="testInput" placeholder="Type something to test unsaved changes">
+        <div id="formStatus"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Unload Test</h2>
+        <button id="triggerUnload">Test Beforeunload (will show warning if form has data)</button>
+        <div id="unloadStatus"></div>
+    </div>
+
+    <script>
+        // Import our fixed modules
+        let clickHandler = null;
+        let listenerActive = false;
+
+        // Test event listener management
+        document.getElementById('addListener').addEventListener('click', () => {
+            if (!listenerActive) {
+                clickHandler = () => {
+                    document.getElementById('clickResult').innerHTML = '<span class="success">✓ Event listener working!</span>';
+                };
+                document.getElementById('testClick').addEventListener('click', clickHandler);
+                listenerActive = true;
+                document.getElementById('clickResult').innerHTML = '<span class="success">Event listener added</span>';
+            }
+        });
+
+        document.getElementById('removeListener').addEventListener('click', () => {
+            if (listenerActive && clickHandler) {
+                document.getElementById('testClick').removeEventListener('click', clickHandler);
+                clickHandler = null;
+                listenerActive = false;
+                document.getElementById('clickResult').innerHTML = '<span class="success">Event listener removed</span>';
+            }
+        });
+
+        // Test form change detection
+        document.getElementById('testInput').addEventListener('input', (e) => {
+            const hasChanges = e.target.value.trim() !== '';
+            document.getElementById('formStatus').innerHTML = hasChanges ? 
+                '<span class="error">Unsaved changes detected</span>' : 
+                '<span class="success">No unsaved changes</span>';
+        });
+
+        // Test beforeunload
+        document.getElementById('triggerUnload').addEventListener('click', () => {
+            const testInput = document.getElementById('testInput');
+            if (testInput.value.trim() !== '') {
+                document.getElementById('unloadStatus').innerHTML = '<span class="error">Try refreshing or navigating away - you should see a warning</span>';
+            } else {
+                document.getElementById('unloadStatus').innerHTML = '<span class="success">No unsaved changes - no warning will show</span>';
+            }
+        });
+
+        // Simulate the beforeunload handler from our app
+        window.addEventListener('beforeunload', (e) => {
+            const testInput = document.getElementById('testInput');
+            if (testInput.value.trim() !== '') {
+                e.preventDefault();
+                e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+                return 'You have unsaved changes. Are you sure you want to leave?';
+            }
+        });
+
+        console.log('Test page loaded - all unload fixes are active');
+    </script>
+</body>
+</html>

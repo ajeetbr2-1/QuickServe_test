@@ -1,20 +1,32 @@
 export const homeView = {
     services: [],
+    boundEventHandler: null,
     
     init(services = []) {
         this.services = services;
+        this.cleanup(); // Clean up any existing listeners first
         this.bindEvents();
         this.renderServices();
     },
 
     bindEvents() {
-        document.addEventListener('click', (e) => {
+        // Store reference to bound function so we can remove it later
+        this.boundEventHandler = (e) => {
             if (e.target.closest('.service-tile')) {
                 const tile = e.target.closest('.service-tile');
                 const serviceId = tile.dataset.serviceId;
                 this.handleServiceSelection(serviceId);
             }
-        });
+        };
+        document.addEventListener('click', this.boundEventHandler);
+    },
+
+    cleanup() {
+        // Remove existing event listener if it exists
+        if (this.boundEventHandler) {
+            document.removeEventListener('click', this.boundEventHandler);
+            this.boundEventHandler = null;
+        }
     },
 
     renderServices() {
