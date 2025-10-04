@@ -13,26 +13,36 @@ class QuickServeApp {
 
     async init() {
         try {
+            console.log('🚀 Starting QuickServe app initialization...');
+
             // Initialize loading screen
+            console.log('⏳ Showing loading screen...');
             this.showLoading();
 
             // Load services data
+            console.log('📋 Loading services data...');
             await this.loadServices();
 
             // Initialize views
+            console.log('🔧 Initializing views...');
             this.initializeViews();
 
             // Setup event listeners
+            console.log('⚡ Setting up event listeners...');
             this.setupEventListeners();
 
             // Show initial view (this completes the app initialization)
+            console.log('🏠 Showing initial view...');
             this.showView('home');
 
             // Hide loading screen only after view is fully shown
+            console.log('✅ App initialization complete, hiding loading screen...');
             this.hideLoading();
 
+            console.log('🎉 QuickServe app fully loaded and ready!');
+
         } catch (error) {
-            console.error('App initialization failed:', error);
+            console.error('💥 App initialization failed:', error);
             this.hideLoading();
             this.showError('Failed to load application');
         }
@@ -40,10 +50,45 @@ class QuickServeApp {
 
     async loadServices() {
         try {
-            const response = await fetch('./public/services.json');
-            this.services = await response.json();
+            console.log('🔄 Starting to load services.json...');
+
+            // Try multiple possible paths for services.json
+            const possiblePaths = [
+                './services.json',           // Root level (Vercel standard)
+                './public/services.json',    // Public folder (local development)
+                '/services.json'             // Absolute path (failsafe)
+            ];
+
+            let response = null;
+            for (const path of possiblePaths) {
+                try {
+                    console.log(`📡 Trying path: ${path}`);
+                    response = await fetch(path, {
+                        cache: 'no-cache',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    console.log(`✅ Response status for ${path}:`, response.status);
+                    if (response.ok) {
+                        console.log(`🎉 Successfully loaded from ${path}`);
+                        break;
+                    }
+                } catch (e) {
+                    console.log(`❌ Path ${path} failed:`, e.message);
+                }
+            }
+
+            if (!response || !response.ok) {
+                console.error('💥 Services.json not found at any expected location');
+                throw new Error('Services.json not found at any expected location');
+            }
+
+            const services = await response.json();
+            console.log(`📊 Loaded ${services.length} services successfully`);
+            this.services = services;
         } catch (error) {
-            console.error('Failed to load services:', error);
+            console.error('💥 Failed to load services:', error);
             this.services = [];
         }
     }

@@ -12,6 +12,19 @@
           "value": "no-cache"
         }
       ]
+    },
+    {
+      "source": "/services.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        }
+      ]
     }
   ],
   "github": {
