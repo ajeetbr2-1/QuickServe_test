@@ -40,13 +40,25 @@ class QuickServeApp {
     }
 
     async loadServices() {
-        try {
-            const response = await fetch('./services.json');
-            this.services = await response.json();
-        } catch (error) {
-            console.error('Failed to load services:', error);
-            this.services = [];
+        const candidatePaths = [
+            '/services.json', // Vite dev/build serves public assets at root
+            '/public/services.json', // Fallback for simple static servers
+            './services.json',
+            'services.json'
+        ];
+        for (const path of candidatePaths) {
+            try {
+                const response = await fetch(path, { cache: 'no-store' });
+                if (response.ok) {
+                    this.services = await response.json();
+                    return;
+                }
+            } catch (_) {
+                // Try next path
+            }
         }
+        console.error('Failed to load services from all known paths');
+        this.services = [];
     }
 
     initializeViews() {
@@ -108,6 +120,8 @@ class QuickServeApp {
     showLoading() {
         const loadingScreen = document.getElementById('loadingScreen');
         if (loadingScreen) {
+            loadingScreen.classList.remove('hidden');
+            // Ensure element is visible for transition
             loadingScreen.style.display = 'flex';
         }
     }
@@ -115,8 +129,16 @@ class QuickServeApp {
     hideLoading() {
         const loadingScreen = document.getElementById('loadingScreen');
         if (loadingScreen) {
-            loadingScreen.style.display = 'none';
-            console.log('Loading screen hidden by app.js');
+            // Use CSS transition by toggling class
+            loadingScreen.classList.add('hidden');
+            // After transition, remove from layout
+            const handleTransitionEnd = (event) => {
+                if (event.propertyName === 'opacity') {
+                    loadingScreen.style.display = 'none';
+                    loadingScreen.removeEventListener('transitionend', handleTransitionEnd);
+                }
+            };
+            loadingScreen.addEventListener('transitionend', handleTransitionEnd);
         }
     }
 
