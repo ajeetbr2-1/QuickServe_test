@@ -41,7 +41,10 @@ class QuickServeApp {
 
     async loadServices() {
         try {
-            const response = await fetch('./services.json');
+            const response = await fetch('/services.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             this.services = await response.json();
         } catch (error) {
             console.error('Failed to load services:', error);
