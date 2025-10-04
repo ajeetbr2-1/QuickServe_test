@@ -393,8 +393,48 @@ class StorageManager {
     }
 }
 
-// Create singleton instance and expose globally
+// Create singleton instance and enhance with simple key-value helpers
 const Storage = new StorageManager();
+
+// Lightweight key/value API for compatibility with services expecting getItem/setItem
+Storage.getItem = function(key) {
+    try {
+        const data = this.getData();
+        return data?.settings?.[key] ?? null;
+    } catch (e) {
+        console.warn('Storage.getItem failed for key:', key, e);
+        return null;
+    }
+};
+
+Storage.setItem = function(key, value) {
+    try {
+        const data = this.getData() || {};
+        data.settings = data.settings || {};
+        data.settings[key] = value;
+        this.setData(data);
+        return true;
+    } catch (e) {
+        console.warn('Storage.setItem failed for key:', key, e);
+        return false;
+    }
+};
+
+Storage.removeItem = function(key) {
+    try {
+        const data = this.getData() || {};
+        if (data.settings && key in data.settings) {
+            delete data.settings[key];
+            this.setData(data);
+        }
+        return true;
+    } catch (e) {
+        console.warn('Storage.removeItem failed for key:', key, e);
+        return false;
+    }
+};
+
+// Expose globally
 window.Storage = Storage;
 
 // Export for CommonJS environments (tests, tooling)

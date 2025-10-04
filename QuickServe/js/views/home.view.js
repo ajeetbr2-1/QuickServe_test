@@ -19,11 +19,15 @@ export const homeView = {
 
     renderServices() {
         const servicesContainer = document.querySelector('.services-grid');
-        if (servicesContainer && this.services.length > 0) {
+        if (servicesContainer) {
+            if (!Array.isArray(this.services) || this.services.length === 0) {
+                servicesContainer.innerHTML = '<p class="empty-state">No services available right now.</p>';
+                return;
+            }
             servicesContainer.innerHTML = this.services.slice(0, 8).map(service => 
                 '<div class="service-tile" data-service-id="' + service.id + '">' +
                     '<div class="service-icon">' +
-                        '<img src="' + service.image + '" alt="' + service.name + '" onerror="this.src=\'/services/default.jpg\'">' +
+                        '<img src="' + service.image + '" alt="' + service.name + '" onerror="this.src=\'public/services/default.jpg\'">' +
                     '</div>' +
                     '<h3>' + service.name + '</h3>' +
                     '<p>₹' + service.price + '</p>' +

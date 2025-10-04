@@ -2,7 +2,8 @@
 import { homeView } from './views/home.view.js';
 import { providersView } from './views/providers.view.js';
 import { bookingView } from './views/booking.view.js';
-import { ApiService } from './services/api.service.js';
+// Note: API services are loaded globally via a non-module script in index.html
+// Avoid importing here to prevent module import errors
 
 class QuickServeApp {
     constructor() {
@@ -40,13 +41,24 @@ class QuickServeApp {
     }
 
     async loadServices() {
-        try {
-            const response = await fetch('./services.json');
-            this.services = await response.json();
-        } catch (error) {
-            console.error('Failed to load services:', error);
-            this.services = [];
+        const candidatePaths = [
+            '/services.json',
+            'services.json',
+            'public/services.json',
+            './public/services.json'
+        ];
+        for (const path of candidatePaths) {
+            try {
+                const response = await fetch(path);
+                if (!response.ok) continue;
+                this.services = await response.json();
+                return;
+            } catch (_) {
+                // try next path
+            }
         }
+        console.error('Failed to load services from all known paths');
+        this.services = [];
     }
 
     initializeViews() {
