@@ -117,6 +117,8 @@ class QuickServeApp {
         if (loadingScreen) {
             loadingScreen.style.display = 'none';
             console.log('Loading screen hidden by app.js');
+            // Remove the element from DOM to prevent any interference
+            loadingScreen.remove();
         }
     }
 
