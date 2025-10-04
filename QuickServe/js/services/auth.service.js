@@ -41,12 +41,12 @@ class AuthenticationService {
             return window.Supabase.client.auth
                 .signInWithOtp({ phone: phoneNumber, options: { channel: 'sms' } })
                 .then(() => {
-                    if (window.Toast) window.Toast.show('OTP sent to your phone', 'success');
+                    console.log('✅ OTP sent to your phone');
                     return true;
                 })
                 .catch(err => {
                     console.error('Supabase OTP send failed:', err);
-                    if (window.Toast && window.Toast.error) window.Toast.error('Failed to send OTP');
+                    console.error('❌ Failed to send OTP');
                     return false;
                 });
         }

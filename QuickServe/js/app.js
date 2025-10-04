@@ -50,9 +50,36 @@ class QuickServeApp {
 
     async loadServices() {
         try {
-            console.log('🔄 Starting to load services.json...');
+            console.log('🔄 Starting to load services...');
 
-            // Try multiple possible paths for services.json
+            // Check if Supabase is available and enabled
+            if (window.Supabase && window.Supabase.enabled) {
+                console.log('🔗 Using Supabase for services...');
+                try {
+                    const services = await window.Supabase.services.listServices();
+                    console.log(`📊 Loaded ${services.length} services from Supabase`);
+                    this.services = services.map(service => ({
+                        id: service.id,
+                        name: service.title || service.name,
+                        category: service.category,
+                        description: service.description,
+                        price: service.price,
+                        duration: service.duration || service.duration_text,
+                        rating: service.rating || 0,
+                        reviews: service.reviews || 0,
+                        image: service.images ? service.images[0] : 'assets/images/services/default.jpg',
+                        available: service.available !== false,
+                        verified: service.verified || false
+                    }));
+                    return;
+                } catch (supabaseError) {
+                    console.error('❌ Supabase services failed:', supabaseError);
+                    console.log('🔄 Falling back to static services.json...');
+                }
+            }
+
+            // Fallback to static services.json (for development/testing)
+            console.log('📄 Using static services.json...');
             const possiblePaths = [
                 './services.json',           // Root level (Vercel standard)
                 './public/services.json',    // Public folder (local development)
@@ -85,11 +112,53 @@ class QuickServeApp {
             }
 
             const services = await response.json();
-            console.log(`📊 Loaded ${services.length} services successfully`);
+            console.log(`📊 Loaded ${services.length} services from static file`);
             this.services = services;
         } catch (error) {
             console.error('💥 Failed to load services:', error);
-            this.services = [];
+            // Provide fallback services if everything fails
+            this.services = [
+                {
+                    id: 1,
+                    name: "Plumbing Repair",
+                    category: "Plumbing & Electrical",
+                    description: "Professional plumbing services for pipes, leaks, and fixture repairs",
+                    price: 500,
+                    duration: "2-4 hours",
+                    rating: 4.5,
+                    reviews: 25,
+                    image: "assets/images/services/default.jpg",
+                    available: true,
+                    verified: true
+                },
+                {
+                    id: 2,
+                    name: "Electrical Work",
+                    category: "Plumbing & Electrical",
+                    description: "Electrical installation, repair, and maintenance services",
+                    price: 300,
+                    duration: "1-3 hours",
+                    rating: 4.2,
+                    reviews: 18,
+                    image: "assets/images/services/default.jpg",
+                    available: true,
+                    verified: true
+                },
+                {
+                    id: 3,
+                    name: "Carpentry",
+                    category: "Home Improvement",
+                    description: "Professional carpentry and woodworking services",
+                    price: 400,
+                    duration: "3-5 hours",
+                    rating: 4.7,
+                    reviews: 32,
+                    image: "assets/images/services/default.jpg",
+                    available: true,
+                    verified: true
+                }
+            ];
+            console.log('📋 Using fallback services data');
         }
     }
 
